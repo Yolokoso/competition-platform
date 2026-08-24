@@ -1,0 +1,57 @@
+[
+  {
+    "id": "amazon-100-gift-card",
+    "slug": "amazon-100-gift-card",
+    "title": "Win a $100 Amazon Gift Card",
+    "shortDescription": "Enter for free and win a $100 Amazon Gift Card + free Productivity Toolkit.",
+    "description": "One lucky winner will receive a $100 Amazon Gift Card and lifetime access to our digital Productivity Toolkit (Notion templates, checklists, and guides). Completely free to enter after completing a short offer.",
+    "prize": "$100 Amazon Gift Card + Productivity Toolkit",
+    "prizeValue": 100,
+    "endDate": "2026-09-30T23:59:59Z",
+    "entryCount": 1247,
+    "image": "/prizes/amazon-gift.png",
+    "active": true,
+    "rules": [
+      "One entry per person",
+      "Must be 18+ years old",
+      "Winner selected randomly",
+      "Winner announced on this page and via email"
+    ]
+  },
+  {
+    "id": "airpods-pro",
+    "slug": "airpods-pro",
+    "title": "Win Free AirPods Pro",
+    "shortDescription": "Complete a quick offer and enter to win brand new AirPods Pro.",
+    "description": "Enter our free giveaway for a chance to win a brand new pair of AirPods Pro. Open worldwide. Winner chosen at random after the deadline.",
+    "prize": "Apple AirPods Pro (2nd Gen)",
+    "prizeValue": 249,
+    "endDate": "2026-10-15T23:59:59Z",
+    "entryCount": 892,
+    "image": "/prizes/airpods.png",
+    "active": true,
+    "rules": [
+      "One entry per person",
+      "Must complete required offer to unlock entry",
+      "Winner contacted by email within 7 days"
+    ]
+  },
+  {
+    "id": "canva-pro-year",
+    "slug": "canva-pro-year",
+    "title": "Win 1 Year of Canva Pro",
+    "shortDescription": "Free entry to win a full year of Canva Pro subscription.",
+    "description": "Design like a pro. Enter for a chance to win 12 months of Canva Pro. Perfect for creators, students, and small businesses.",
+    "prize": "1 Year Canva Pro Subscription",
+    "prizeValue": 120,
+    "endDate": "2026-09-20T23:59:59Z",
+    "entryCount": 2103,
+    "image": "/prizes/canva.png",
+    "active": true,
+    "rules": [
+      "One entry per email",
+      "Must be 16+",
+      "Digital prize delivered by email"
+    ]
+  }
+]
