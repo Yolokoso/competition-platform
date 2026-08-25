@@ -17,6 +17,7 @@ export default function CompetitionClient({ competition }: Props) {
       {!unlocked ? (
         <ContentLocker
           competitionTitle={competition.title}
+          lockerUrl={competition.lockerUrl}
           onUnlocked={() => setUnlocked(true)}
         />
       ) : (
