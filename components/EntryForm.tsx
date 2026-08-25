@@ -12,18 +12,37 @@ export default function EntryForm({ competitionId, competitionTitle }: Props) {
   const [email, setEmail] = useState("");
   const [submitted, setSubmitted] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
+    setError("");
 
-    // In production: send to your API / email service / Google Sheet / etc.
-    // For now we just simulate success.
-    await new Promise((r) => setTimeout(r, 800));
+    try {
+      const res = await fetch("/api/entries", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          competitionId,
+          competitionTitle,
+          name: name.trim(),
+          email: email.trim().toLowerCase(),
+        }),
+      });
 
-    console.log("New entry:", { competitionId, name, email });
-    setSubmitted(true);
-    setLoading(false);
+      const data = await res.json();
+
+      if (!res.ok) {
+        throw new Error(data.error || "Something went wrong");
+      }
+
+      setSubmitted(true);
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "Failed to submit. Please try again.");
+    } finally {
+      setLoading(false);
+    }
   };
 
   if (submitted) {
@@ -60,7 +79,7 @@ export default function EntryForm({ competitionId, competitionTitle }: Props) {
             required
             value={name}
             onChange={(e) => setName(e.target.value)}
-            className="mt-1 block w-full rounded-lg border border-slate-300 px-3 py-2 shadow-sm focus:border-brand-500 focus:outline-none focus:ring-1 focus:ring-brand-500"
+            className="mt-1 block w-full rounded-lg border border-slate-300 px-3 py-2.5 shadow-sm focus:border-brand-500 focus:outline-none focus:ring-1 focus:ring-brand-500"
             placeholder="Jane Doe"
           />
         </div>
@@ -75,15 +94,19 @@ export default function EntryForm({ competitionId, competitionTitle }: Props) {
             required
             value={email}
             onChange={(e) => setEmail(e.target.value)}
-            className="mt-1 block w-full rounded-lg border border-slate-300 px-3 py-2 shadow-sm focus:border-brand-500 focus:outline-none focus:ring-1 focus:ring-brand-500"
+            className="mt-1 block w-full rounded-lg border border-slate-300 px-3 py-2.5 shadow-sm focus:border-brand-500 focus:outline-none focus:ring-1 focus:ring-brand-500"
             placeholder="jane@example.com"
           />
         </div>
 
+        {error && (
+          <p className="text-sm text-red-600 bg-red-50 rounded-lg px-3 py-2">{error}</p>
+        )}
+
         <button
           type="submit"
           disabled={loading}
-          className="w-full rounded-xl bg-brand-600 px-6 py-3 font-semibold text-white shadow hover:bg-brand-700 disabled:opacity-60"
+          className="w-full rounded-xl bg-brand-600 px-6 py-3.5 font-semibold text-white shadow hover:bg-brand-700 disabled:opacity-60 transition"
         >
           {loading ? "Submitting..." : "Submit My Free Entry"}
         </button>
