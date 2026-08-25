@@ -1,6 +1,9 @@
 import { NextRequest, NextResponse } from "next/server";
 import { addEntry, getEntries } from "@/lib/entries-store";
 
+// SQLite needs the Node.js runtime (not Edge)
+export const runtime = "nodejs";
+
 type EntryBody = {
   competitionId: string;
   competitionTitle: string;
@@ -28,7 +31,7 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    const entry = await addEntry({
+    const entry = addEntry({
       competitionId,
       competitionTitle,
       name: name.trim(),
@@ -45,14 +48,14 @@ export async function POST(request: NextRequest) {
     return NextResponse.json(
       {
         error:
-          "Could not save entry. On Vercel the filesystem is read-only — use a VPS/Railway host, or connect a free database (see README).",
+          "Could not save entry. SQLite needs a writable filesystem (local, Railway, Render, or a VPS). Vercel serverless will not work for this setup.",
       },
       { status: 500 }
     );
   }
 }
 
-// Admin can list entries with ?key=YOUR_ADMIN_KEY
+// Admin: GET /api/entries?key=YOUR_ADMIN_KEY
 export async function GET(request: NextRequest) {
   const key = request.nextUrl.searchParams.get("key");
   const adminKey = process.env.ADMIN_KEY;
@@ -62,10 +65,13 @@ export async function GET(request: NextRequest) {
   }
 
   try {
-    const entries = await getEntries();
+    const entries = getEntries();
     return NextResponse.json({ entries });
   } catch (error) {
     console.error("List entries error:", error);
-    return NextResponse.json({ error: "Could not read entries" }, { status: 500 });
+    return NextResponse.json(
+      { error: "Could not read entries" },
+      { status: 500 }
+    );
   }
 }
