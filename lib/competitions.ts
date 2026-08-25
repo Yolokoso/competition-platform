@@ -13,6 +13,8 @@ export type Competition = {
   image: string;
   active: boolean;
   rules: string[];
+  /** Optional per-competition OGAds locker URL. Falls back to NEXT_PUBLIC_OGADS_LOCKER_URL */
+  lockerUrl?: string;
 };
 
 export function getAllCompetitions(): Competition[] {
