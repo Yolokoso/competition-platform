@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { getActiveCompetitions, formatEndDate } from "@/lib/competitions";
+import CountdownTimer from "@/components/CountdownTimer";
 
 export default function HomePage() {
   const competitions = getActiveCompetitions();
@@ -101,9 +102,12 @@ export default function HomePage() {
                   {comp.shortDescription}
                 </p>
 
-                <div className="mt-6 flex-1" />
+                {/* Mini countdown for urgency */}
+                <div className="mt-4">
+                  <CountdownTimer endDate={comp.endDate} size="sm" />
+                </div>
 
-                <div className="rounded-2xl bg-slate-50 p-4">
+                <div className="mt-4 rounded-2xl bg-slate-50 p-4">
                   <div className="text-xs font-medium uppercase tracking-wider text-slate-400">
                     Prize
                   </div>
