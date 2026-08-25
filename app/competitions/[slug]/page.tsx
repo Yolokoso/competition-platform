@@ -3,9 +3,9 @@ import type { Metadata } from "next";
 import {
   getCompetitionBySlug,
   getActiveCompetitions,
-  formatEndDate,
 } from "@/lib/competitions";
 import CompetitionClient from "./CompetitionClient";
+import CountdownTimer from "@/components/CountdownTimer";
 
 type Props = {
   params: Promise<{ slug: string }>;
@@ -41,37 +41,54 @@ export default async function CompetitionPage({ params }: Props) {
   }
 
   return (
-    <div className="mx-auto max-w-3xl px-4 py-10">
+    <div className="mx-auto max-w-3xl px-4 py-10 sm:py-14">
+      {/* Status + Title */}
       <div className="mb-8">
-        <span className="inline-flex items-center rounded-full bg-green-100 px-3 py-1 text-xs font-medium text-green-800">
-          Active · Ends {formatEndDate(competition.endDate)}
-        </span>
-        <h1 className="mt-3 text-3xl font-bold tracking-tight text-slate-900 sm:text-4xl">
+        <div className="inline-flex items-center gap-2 rounded-full bg-emerald-50 px-3 py-1 text-xs font-semibold text-emerald-700 ring-1 ring-emerald-600/20">
+          <span className="h-1.5 w-1.5 rounded-full bg-emerald-500 animate-pulse" />
+          Active Competition
+        </div>
+
+        <h1 className="mt-4 text-3xl font-extrabold tracking-tight text-slate-900 sm:text-4xl">
           {competition.title}
         </h1>
-        <p className="mt-3 text-lg text-slate-600">{competition.description}</p>
 
-        <div className="mt-6 flex flex-wrap gap-4 text-sm">
-          <div className="rounded-lg bg-slate-100 px-4 py-2">
-            <span className="text-slate-500">Prize</span>
-            <div className="font-semibold text-slate-900">{competition.prize}</div>
+        <p className="mt-3 text-lg text-slate-600 leading-relaxed">
+          {competition.description}
+        </p>
+
+        {/* Prize + Entries */}
+        <div className="mt-6 grid grid-cols-2 gap-3">
+          <div className="rounded-2xl bg-white border border-slate-200 p-4 shadow-sm">
+            <div className="text-xs font-medium uppercase tracking-wider text-slate-400">Prize</div>
+            <div className="mt-1 font-bold text-brand-700">{competition.prize}</div>
           </div>
-          <div className="rounded-lg bg-slate-100 px-4 py-2">
-            <span className="text-slate-500">Entries</span>
-            <div className="font-semibold text-slate-900">
+          <div className="rounded-2xl bg-white border border-slate-200 p-4 shadow-sm">
+            <div className="text-xs font-medium uppercase tracking-wider text-slate-400">Entries</div>
+            <div className="mt-1 font-bold text-slate-900">
               {competition.entryCount.toLocaleString()}
             </div>
           </div>
         </div>
       </div>
 
+      {/* Countdown - creates urgency */}
+      <div className="mb-8">
+        <CountdownTimer endDate={competition.endDate} size="lg" />
+      </div>
+
+      {/* Locker → Form flow */}
       <CompetitionClient competition={competition} />
 
-      <div className="mt-10 rounded-xl border bg-slate-50 p-5">
-        <h2 className="font-semibold text-slate-900">Official Rules</h2>
-        <ul className="mt-3 list-disc space-y-1 pl-5 text-sm text-slate-600">
+      {/* Rules */}
+      <div className="mt-10 rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
+        <h2 className="font-bold text-slate-900">Official Rules</h2>
+        <ul className="mt-4 space-y-2 text-sm text-slate-600">
           {competition.rules.map((rule, i) => (
-            <li key={i}>{rule}</li>
+            <li key={i} className="flex gap-2">
+              <span className="text-brand-500 font-bold">•</span>
+              <span>{rule}</span>
+            </li>
           ))}
         </ul>
       </div>
