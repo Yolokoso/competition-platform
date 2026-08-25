@@ -42,38 +42,36 @@ export default async function CompetitionPage({ params }: Props) {
 
   return (
     <div className="mx-auto max-w-3xl px-4 py-10 sm:py-14">
-      {/* Status + Title */}
-      <div className="mb-8">
-        <div className="inline-flex items-center gap-2 rounded-full bg-emerald-50 px-3 py-1 text-xs font-semibold text-emerald-700 ring-1 ring-emerald-600/20">
-          <span className="h-1.5 w-1.5 rounded-full bg-emerald-500 animate-pulse" />
-          Active Competition
+      {/* Status badge */}
+      <div className="inline-flex items-center gap-2 rounded-full bg-emerald-50 px-3 py-1 text-xs font-semibold text-emerald-700 ring-1 ring-emerald-600/20">
+        <span className="h-1.5 w-1.5 rounded-full bg-emerald-500 animate-pulse" />
+        Active Competition
+      </div>
+
+      <h1 className="mt-4 text-3xl font-extrabold tracking-tight text-slate-900 sm:text-4xl">
+        {competition.title}
+      </h1>
+
+      <p className="mt-3 text-lg text-slate-600 leading-relaxed">
+        {competition.description}
+      </p>
+
+      {/* Prize + Entries */}
+      <div className="mt-6 grid grid-cols-2 gap-3">
+        <div className="rounded-2xl bg-white border border-slate-200 p-4 shadow-sm">
+          <div className="text-xs font-medium uppercase tracking-wider text-slate-400">Prize</div>
+          <div className="mt-1 font-bold text-brand-700">{competition.prize}</div>
         </div>
-
-        <h1 className="mt-4 text-3xl font-extrabold tracking-tight text-slate-900 sm:text-4xl">
-          {competition.title}
-        </h1>
-
-        <p className="mt-3 text-lg text-slate-600 leading-relaxed">
-          {competition.description}
-        </p>
-
-        {/* Prize + Entries */}
-        <div className="mt-6 grid grid-cols-2 gap-3">
-          <div className="rounded-2xl bg-white border border-slate-200 p-4 shadow-sm">
-            <div className="text-xs font-medium uppercase tracking-wider text-slate-400">Prize</div>
-            <div className="mt-1 font-bold text-brand-700">{competition.prize}</div>
-          </div>
-          <div className="rounded-2xl bg-white border border-slate-200 p-4 shadow-sm">
-            <div className="text-xs font-medium uppercase tracking-wider text-slate-400">Entries</div>
-            <div className="mt-1 font-bold text-slate-900">
-              {competition.entryCount.toLocaleString()}
-            </div>
+        <div className="rounded-2xl bg-white border border-slate-200 p-4 shadow-sm">
+          <div className="text-xs font-medium uppercase tracking-wider text-slate-400">Entries</div>
+          <div className="mt-1 font-bold text-slate-900">
+            {competition.entryCount.toLocaleString()}
           </div>
         </div>
       </div>
 
       {/* Countdown - creates urgency */}
-      <div className="mb-8">
+      <div className="mt-8 mb-8">
         <CountdownTimer endDate={competition.endDate} size="lg" />
       </div>
 
