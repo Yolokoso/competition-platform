@@ -5,60 +5,59 @@ import { useEffect, useState } from "react";
 type Props = {
   competitionTitle: string;
   onUnlocked: () => void;
+  /** Per-competition OGAds locker URL. Falls back to NEXT_PUBLIC_OGADS_LOCKER_URL */
+  lockerUrl?: string;
 };
 
 /**
  * OGAds Content Locker integration
  *
- * TWO WAYS TO CONNECT:
+ * RECOMMENDED METHOD: Direct Link + Redirect
+ * 1. In OGAds create a content locker
+ * 2. Set Unlock Action = Redirect
+ * 3. Redirect URL example:
+ *    https://yourdomain.com/competitions/amazon-100-gift-card?unlocked=1
+ * 4. Put the locker link in competitions.json as "lockerUrl"
+ *    OR set NEXT_PUBLIC_OGADS_LOCKER_URL as a global fallback
  *
- * 1) DIRECT LINK (easiest)
- *    - In OGAds, create a locker and set Unlock Action = Redirect
- *    - Redirect URL: https://yourdomain.com/competitions/YOUR-SLUG?unlocked=1
- *    - Put the locker URL in NEXT_PUBLIC_OGADS_LOCKER_URL
- *
- * 2) JAVASCRIPT OVERLAY
- *    - Paste OGAds script in app/layout.tsx <head>
- *    - Set locker Load Method to "JavaScript" / onClick
- *    - Button calls window.call_locker() or window.og_load()
- *    - For unlock detection with JS mode, still use ?unlocked=1 redirect
- *      or a custom unlock callback if OGAds supports it for your locker
+ * ALTERNATE: JavaScript overlay
+ * - Paste OGAds script in app/layout.tsx <head>
+ * - Set locker Load Method to JavaScript / onClick
+ * - Button calls window.call_locker() or window.og_load()
  */
-export default function ContentLocker({ competitionTitle, onUnlocked }: Props) {
+export default function ContentLocker({
+  competitionTitle,
+  onUnlocked,
+  lockerUrl,
+}: Props) {
   const [loading, setLoading] = useState(false);
 
-  // Check if user returned from OGAds with ?unlocked=1
+  // Returned from OGAds redirect with ?unlocked=1
   useEffect(() => {
     if (typeof window === "undefined") return;
     const params = new URLSearchParams(window.location.search);
     if (params.get("unlocked") === "1") {
       onUnlocked();
-      // Clean the URL so refresh doesn't re-trigger oddly
-      const cleanUrl = window.location.pathname;
-      window.history.replaceState({}, "", cleanUrl);
+      window.history.replaceState({}, "", window.location.pathname);
     }
   }, [onUnlocked]);
 
-  const lockerUrl = process.env.NEXT_PUBLIC_OGADS_LOCKER_URL;
+  const resolvedLockerUrl =
+    lockerUrl || process.env.NEXT_PUBLIC_OGADS_LOCKER_URL || "";
 
-  // METHOD 1: Direct link to OGAds locker
   const handleDirectLocker = () => {
-    if (!lockerUrl) {
+    if (!resolvedLockerUrl) {
       alert(
-        "OGAds locker URL not set. Add NEXT_PUBLIC_OGADS_LOCKER_URL in your .env.local or Vercel env vars."
+        "No OGAds locker URL set. Add lockerUrl in data/competitions.json for this competition, or set NEXT_PUBLIC_OGADS_LOCKER_URL in env."
       );
       return;
     }
     setLoading(true);
-    // Send user to OGAds locker. After they complete offers,
-    // OGAds should redirect them back to this page with ?unlocked=1
-    window.location.href = lockerUrl;
+    window.location.href = resolvedLockerUrl;
   };
 
-  // METHOD 2: JavaScript overlay (script must be in layout head)
   const handleJsLocker = () => {
     setLoading(true);
-    // OGAds docs use call_locker() or og_load() depending on version
     const w = window as any;
     if (typeof w.call_locker === "function") {
       w.call_locker();
@@ -67,12 +66,12 @@ export default function ContentLocker({ competitionTitle, onUnlocked }: Props) {
     } else {
       setLoading(false);
       alert(
-        "OGAds script not loaded. Paste their JavaScript into app/layout.tsx <head>, and set locker Load Method to JavaScript/onClick."
+        "OGAds script not loaded. Paste their JavaScript into app/layout.tsx <head>."
       );
     }
   };
 
-  // DEMO only – remove once real OGAds is connected
+  // DEMO only
   const handleDemoUnlock = () => {
     setLoading(true);
     setTimeout(() => {
@@ -81,7 +80,7 @@ export default function ContentLocker({ competitionTitle, onUnlocked }: Props) {
     }, 1200);
   };
 
-  const hasRealLocker = Boolean(lockerUrl);
+  const hasRealLocker = Boolean(resolvedLockerUrl);
 
   return (
     <div className="rounded-2xl border-2 border-dashed border-brand-300 bg-brand-50 p-6 text-center">
@@ -117,8 +116,8 @@ export default function ContentLocker({ competitionTitle, onUnlocked }: Props) {
               Try JS Locker (if script installed)
             </button>
             <p className="text-xs text-slate-500">
-              Demo mode. Set <code>NEXT_PUBLIC_OGADS_LOCKER_URL</code> to your OGAds
-              locker link, or paste their script into the site head.
+              Demo mode. Add <code>lockerUrl</code> in competitions.json or set{" "}
+              <code>NEXT_PUBLIC_OGADS_LOCKER_URL</code>.
             </p>
           </>
         )}
