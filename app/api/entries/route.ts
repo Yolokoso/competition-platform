@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
+import { addEntry, getEntries } from "@/lib/entries-store";
 
 type EntryBody = {
   competitionId: string;
@@ -10,17 +11,15 @@ type EntryBody = {
 export async function POST(request: NextRequest) {
   try {
     const body: EntryBody = await request.json();
-
     const { competitionId, competitionTitle, name, email } = body;
 
-    if (!competitionId || !name || !email) {
+    if (!competitionId || !name?.trim() || !email?.trim()) {
       return NextResponse.json(
         { error: "Missing required fields" },
         { status: 400 }
       );
     }
 
-    // Basic email validation
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(email)) {
       return NextResponse.json(
@@ -29,51 +28,44 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // ============================================
-    // HOW TO ACTUALLY RECEIVE THE EMAILS
-    // ============================================
-    //
-    // Option 1 (Easiest - Formspree):
-    // 1. Go to https://formspree.io and create a free form
-    // 2. Replace the fetch below with your Formspree endpoint
-    //
-    // Option 2 (Resend - recommended for production):
-    // Use the Resend API to email yourself the entry
-    //
-    // Option 3 (Google Sheets):
-    // Use a Google Apps Script web app or SheetDB
-    //
-    // For now we log the entry. Replace this block with your preferred method.
-
-    console.log("=== NEW COMPETITION ENTRY ===");
-    console.log("Competition:", competitionTitle, `(${competitionId})`);
-    console.log("Name:", name);
-    console.log("Email:", email);
-    console.log("Time:", new Date().toISOString());
-    console.log("=============================");
-
-    // Example Formspree integration (uncomment & replace with your form ID):
-    //
-    // await fetch("https://formspree.io/f/YOUR_FORM_ID", {
-    //   method: "POST",
-    //   headers: { "Content-Type": "application/json" },
-    //   body: JSON.stringify({
-    //     competition: competitionTitle,
-    //     name,
-    //     email,
-    //     _subject: `New entry: ${competitionTitle}`,
-    //   }),
-    // });
+    const entry = await addEntry({
+      competitionId,
+      competitionTitle,
+      name: name.trim(),
+      email: email.trim().toLowerCase(),
+    });
 
     return NextResponse.json({
       success: true,
       message: "Entry recorded successfully",
+      id: entry.id,
     });
   } catch (error) {
     console.error("Entry submission error:", error);
     return NextResponse.json(
-      { error: "Something went wrong. Please try again." },
+      {
+        error:
+          "Could not save entry. On Vercel the filesystem is read-only — use a VPS/Railway host, or connect a free database (see README).",
+      },
       { status: 500 }
     );
+  }
+}
+
+// Admin can list entries with ?key=YOUR_ADMIN_KEY
+export async function GET(request: NextRequest) {
+  const key = request.nextUrl.searchParams.get("key");
+  const adminKey = process.env.ADMIN_KEY;
+
+  if (!adminKey || key !== adminKey) {
+    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  }
+
+  try {
+    const entries = await getEntries();
+    return NextResponse.json({ entries });
+  } catch (error) {
+    console.error("List entries error:", error);
+    return NextResponse.json({ error: "Could not read entries" }, { status: 500 });
   }
 }
