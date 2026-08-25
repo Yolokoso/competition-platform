@@ -7,8 +7,8 @@
     "description": "One lucky winner will receive a $100 Amazon Gift Card and lifetime access to our digital Productivity Toolkit (Notion templates, checklists, and guides). Completely free to enter after completing a short offer.",
     "prize": "$100 Amazon Gift Card + Productivity Toolkit",
     "prizeValue": 100,
-    "endDate": "2026-09-30T23:59:59Z",
-    "entryCount": 1247,
+    "endDate": "2026-09-05T23:59:59Z",
+    "entryCount": 1847,
     "image": "/prizes/amazon-gift.png",
     "active": true,
     "rules": [
@@ -23,11 +23,11 @@
     "slug": "airpods-pro",
     "title": "Win Free AirPods Pro",
     "shortDescription": "Complete a quick offer and enter to win brand new AirPods Pro.",
-    "description": "Enter our free giveaway for a chance to win a brand new pair of AirPods Pro. Open worldwide. Winner chosen at random after the deadline.",
+    "description": "Enter our free giveaway for a chance to win a brand new pair of AirPods Pro (2nd Generation). Open worldwide. Winner chosen at random after the deadline.",
     "prize": "Apple AirPods Pro (2nd Gen)",
     "prizeValue": 249,
-    "endDate": "2026-10-15T23:59:59Z",
-    "entryCount": 892,
+    "endDate": "2026-09-12T23:59:59Z",
+    "entryCount": 1292,
     "image": "/prizes/airpods.png",
     "active": true,
     "rules": [
@@ -44,14 +44,105 @@
     "description": "Design like a pro. Enter for a chance to win 12 months of Canva Pro. Perfect for creators, students, and small businesses.",
     "prize": "1 Year Canva Pro Subscription",
     "prizeValue": 120,
-    "endDate": "2026-09-20T23:59:59Z",
-    "entryCount": 2103,
+    "endDate": "2026-08-31T23:59:59Z",
+    "entryCount": 3103,
     "image": "/prizes/canva.png",
     "active": true,
     "rules": [
       "One entry per email",
       "Must be 16+",
       "Digital prize delivered by email"
+    ]
+  },
+  {
+    "id": "steam-50-gift-card",
+    "slug": "steam-50-gift-card",
+    "title": "Win a $50 Steam Gift Card",
+    "shortDescription": "Gamers rejoice — free entry to win a $50 Steam wallet top-up.",
+    "description": "Enter for free for a chance to win a $50 Steam Gift Card. Perfect for your next game, DLC, or in-game items. Winner selected randomly.",
+    "prize": "$50 Steam Gift Card",
+    "prizeValue": 50,
+    "endDate": "2026-09-08T23:59:59Z",
+    "entryCount": 2764,
+    "image": "/prizes/steam.png",
+    "active": true,
+    "rules": [
+      "One entry per person",
+      "Must be 13+",
+      "Prize delivered digitally via email"
+    ]
+  },
+  {
+    "id": "notion-plus-year",
+    "slug": "notion-plus-year",
+    "title": "Win 1 Year of Notion Plus",
+    "shortDescription": "Boost your productivity with a free year of Notion Plus.",
+    "description": "Get organized and productive. Enter for a chance to win 12 months of Notion Plus — unlimited blocks, file uploads, and advanced features.",
+    "prize": "1 Year Notion Plus",
+    "prizeValue": 96,
+    "endDate": "2026-09-18T23:59:59Z",
+    "entryCount": 987,
+    "image": "/prizes/notion.png",
+    "active": true,
+    "rules": [
+      "One entry per email",
+      "Digital prize delivered by email",
+      "Winner selected randomly"
+    ]
+  },
+  {
+    "id": "spotify-premium-year",
+    "slug": "spotify-premium-year",
+    "title": "Win 1 Year of Spotify Premium",
+    "shortDescription": "Enjoy ad-free music and offline listening for a full year.",
+    "description": "Enter free for a chance to win 12 months of Spotify Premium. No ads, unlimited skips, and offline downloads.",
+    "prize": "1 Year Spotify Premium",
+    "prizeValue": 120,
+    "endDate": "2026-09-03T23:59:59Z",
+    "entryCount": 4210,
+    "image": "/prizes/spotify.png",
+    "active": true,
+    "rules": [
+      "One entry per person",
+      "Must be 13+",
+      "Prize delivered via email code or account upgrade"
+    ]
+  },
+  {
+    "id": "ipad-mini",
+    "slug": "ipad-mini",
+    "title": "Win an iPad mini",
+    "shortDescription": "Enter free for a chance to win the latest iPad mini.",
+    "description": "One lucky winner will receive a brand new iPad mini. Perfect for reading, drawing, studying, or entertainment on the go.",
+    "prize": "Apple iPad mini",
+    "prizeValue": 499,
+    "endDate": "2026-09-25T23:59:59Z",
+    "entryCount": 653,
+    "image": "/prizes/ipad.png",
+    "active": true,
+    "rules": [
+      "One entry per person",
+      "Must be 18+",
+      "Winner contacted by email within 10 days",
+      "Shipping may be limited to certain countries"
+    ]
+  },
+  {
+    "id": "chatgpt-plus-year",
+    "slug": "chatgpt-plus-year",
+    "title": "Win 1 Year of ChatGPT Plus",
+    "shortDescription": "Get priority access and advanced models for a full year.",
+    "description": "Enter for free to win 12 months of ChatGPT Plus. Enjoy faster responses, priority access during peak times, and the latest models.",
+    "prize": "1 Year ChatGPT Plus",
+    "prizeValue": 240,
+    "endDate": "2026-09-10T23:59:59Z",
+    "entryCount": 1988,
+    "image": "/prizes/chatgpt.png",
+    "active": true,
+    "rules": [
+      "One entry per email",
+      "Digital prize delivered by email",
+      "Winner selected randomly"
     ]
   }
 ]
